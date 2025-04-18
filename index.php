@@ -5,6 +5,15 @@ echo $_POST["username"];
 echo $_POST["comment"];
 }
 
+// DB接続
+
+$host = 'localhost';
+$db   = 'chatapp'; // ← 作成したDB名
+$user = 'root';    // XAMPPの初期ユーザーは「root」
+$pass = '********';   
+
+
+$pdo =  new PDO('mysql:host=localhost;dbname=php_chatapp', $user, $pass);
 
 ?>
 

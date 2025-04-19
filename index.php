@@ -5,7 +5,7 @@ $comment_array = array();
 // DB接続
 
 $user = 'root';    // XAMPPの初期ユーザーは「root」
-$pass = '*******';   
+$pass = '*****';   
 
 try{
 $pdo = new PDO('mysql:host=localhost;dbname=php_chatapp', $user, $pass);
@@ -16,11 +16,21 @@ $pdo = new PDO('mysql:host=localhost;dbname=php_chatapp', $user, $pass);
 
 // フォームを送信した時
 if(!empty($_POST["button"])){
-  $postDate = ("y-m-d H:i:s");
-$stmt = $pdo->prepare("INSERT INTO `chatapp` (`username`, `comment`, `postDate`) VALUES ('username', 'comment', '2025-04-19');");
-$stmt->bindParam(':name', $name);
-$stmt->bindParam(':value', $value);
-} 
+  $postDate = date("Y-m-d H:i:s");
+
+try{
+  // SQLを準備
+$stmt = $pdo->prepare("INSERT INTO `chatapp` (`username`, `comment`, `postDate`) VALUES (:username, :comment, :postDate);");
+// 値をバインド
+$stmt->bindParam(':username', $_POST["username"]);
+$stmt->bindParam(':comment', $_POST["comment"]);
+$stmt->bindParam(':postDate', $postDate);
+// 実行（DBにデータを送信）
+$stmt->execute();
+} catch (PDOException $e){
+  echo $e->getMessage();
+}
+}
 
 
 // DBからデータの取得
